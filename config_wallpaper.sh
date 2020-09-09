@@ -1,9 +1,19 @@
 #!/bin/bash
 
+# This needs to be edited
+help () {
+	echo "
+	-d | --directory
+		directory where the wallpaper image files are located
+	-h | --help
+		this help menu
+	"
+}
+
 parse_args () {
 
-	echo "There are $# arguments"
-	echo "parse_args"
+	# echo "There are $# arguments"
+	# echo "parse_args"
     
 	while :; do
         case $1 in
@@ -11,10 +21,14 @@ parse_args () {
 				help
 				exit 0
 			;;
-			-f|--folder) 
+			-d|--directory)
 				shift
-				folder="$1"
+				directory="$1"
 			;;
+			#-i|--images)
+			#	shift
+			#	images="$1"
+			#;;
 			*) break
 		esac
 		shift
@@ -29,14 +43,23 @@ then
 #	echo "No arguments have been passed."
 fi
 
-# If the folder argument is set then change the variable in the config.json file
-if [ -z ${folder+x} ]
+# If the directory argument is set then change the variable in the config.json file
+if [ ! -z ${directory+x} ]
 then 
-	echo "Folder is unchanged"; 
-else
-	old_folder=$(jq '.folder' config.json) 
-	jq --arg a "${folder}" '.folder = $a' config.json > "tmp" && mv "tmp" config.json
-    echo -e "Folder variable has been set from $old_folder to \"$folder\""; 
+#	echo "directory is unchanged"; 
+#else
+	old_directory=$(jq '.directory' config.json) 
+	jq --arg a "${directory}" '.directory = $a' config.json > "tmp" && mv "tmp" config.json
+    # echo -e "directory variable has been set from $old_directory to \"$directory\""; 
 fi
 
-#gsettings set org.gnome.desktop.background picture-uri "/home/cip/Pictures/wallpaper/IMG-8917.jpg"
+# If the images argument is set then change the variable in the config.json file
+# if [ -z ${images+x} ]
+# then 
+# 	echo "Images is unchanged"; 
+# else
+# 	old_images=$(jq '.images' config.json) 
+# 	jq --arg a "${images}" '.images = $a' config.json > "tmp" && mv "tmp" config.json
+#     echo -e "Images variable has been set from $old_images to \"$images\""; 
+# fi
+
