@@ -1,10 +1,12 @@
 #!/bin/bash
 
+config_file="/home/cip/Desktop/AutomaticWallpaperChanger/config.json"
+
 # Getting variables from configuration file
-directory=$(jq '.directory' config.json)
+directory=$(jq '.directory' ${config_file})
 directory=${directory//\"}
 
-old_wallpaper=$(jq '.current_wallpaper' config.json)
+old_wallpaper=$(jq '.current_wallpaper' ${config_file})
 old_wallpaper=${old_wallpaper//\"}
 
 # use nullglob in case there are no matching files
@@ -31,8 +33,8 @@ fi
 #arr=("${arr[@]/$old_wallpaper}")
 #let size--
 
-jq --arg a "${new_wallpaper}" '.current_wallpaper = $a' config.json > "tmp" && mv "tmp" config.json
+jq --arg a "${new_wallpaper}" '.current_wallpaper = $a' ${config_file} > "tmp" && mv "tmp" ${config_file}
 
-# echo "Changing wallpaper to $new_wallpaper"
+#echo "Changing wallpaper to $new_wallpaper"
 
 gsettings set org.gnome.desktop.background picture-uri "${new_wallpaper}"

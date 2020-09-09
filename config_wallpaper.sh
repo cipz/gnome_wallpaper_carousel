@@ -1,5 +1,7 @@
 #!/bin/bash
 
+config_file="/home/cip/Desktop/AutomaticWallpaperChanger/config.json"
+
 # This needs to be edited
 help () {
 	echo "
@@ -15,6 +17,7 @@ parse_args () {
 	# echo "There are $# arguments"
 	# echo "parse_args"
     
+	# Add argument for changing the path of the config file
 	while :; do
         case $1 in
 			-h|--help) 
@@ -48,8 +51,8 @@ if [ ! -z ${directory+x} ]
 then 
 #	echo "directory is unchanged"; 
 #else
-	old_directory=$(jq '.directory' config.json) 
-	jq --arg a "${directory}" '.directory = $a' config.json > "tmp" && mv "tmp" config.json
+	old_directory=$(jq '.directory' ${config_file}) 
+	jq --arg a "${directory}" '.directory = $a' ${config_file} > "tmp" && mv "tmp" ${config_file}
     # echo -e "directory variable has been set from $old_directory to \"$directory\""; 
 fi
 
@@ -58,8 +61,8 @@ fi
 # then 
 # 	echo "Images is unchanged"; 
 # else
-# 	old_images=$(jq '.images' config.json) 
-# 	jq --arg a "${images}" '.images = $a' config.json > "tmp" && mv "tmp" config.json
+# 	old_images=$(jq '.images' ${config_file}) 
+# 	jq --arg a "${images}" '.images = $a' ${config_file} > "tmp" && mv "tmp" ${config_file}
 #     echo -e "Images variable has been set from $old_images to \"$images\""; 
 # fi
 
