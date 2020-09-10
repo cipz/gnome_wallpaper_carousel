@@ -3,7 +3,6 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 config_file=$DIR"/config.json"
 
-# This needs to be edited
 help () {
 	echo "
 	-d | --directory
@@ -29,14 +28,6 @@ parse_args () {
 				shift
 				directory="$1"
 			;;
-#			-i|--include)
-#				shift
-#				include="$1"
-#			;;
-#			-e|--exclude)
-#				shift
-#				include="$1"
-			;;
 			*) break
 		esac
 		shift
@@ -53,16 +44,6 @@ update_config () {
     jq --arg a "${directory}" '.directory = $a' ${config_file} > "tmp" && mv "tmp" ${config_file}
     # echo -e "Directory variable has been set from $old_directory to \"$directory\""; 
   fi
-
-  # If the images argument is set then change the variable in the config.json file
-  # if [ -z ${images+x} ]
-  # then 
-  # 	echo "Images is unchanged"; 
-  # else
-  # 	old_images=$(jq '.images' ${config_file}) 
-  # 	jq --arg a "${images}" '.images = $a' ${config_file} > "tmp" && mv "tmp" ${config_file}
-  #     echo -e "Images variable has been set from $old_images to \"$images\""; 
-  # fi
 
 }
 
