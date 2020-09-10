@@ -1,5 +1,5 @@
 # Linux automatic wallpaper changer
-This simple program is being developed with the idea of making a daemon that could chage the wallpaper automatically.
+This simple program is being developed with the idea of making a daemon that could change the wallpaper automatically.
 
 ## Usage
 
