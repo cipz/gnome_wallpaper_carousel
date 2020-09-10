@@ -15,7 +15,7 @@ In order to make this script run automatically a `cron` job must be set up.
 There are a lot tutorials online, but in a nutshell:
 
 1. Run `crontab -e -u your_username`
-2. Add a new rule like `*/10 * * * * export DISPLAY=:0 && /path/to/repo/wallpaper_changer.sh`
+2. Add a new rule like `*/10 * * * * /path/to/repo/wallpaper_changer.sh >/dev/null 2>&1`
 3. Save and exit
 
 This rule executes the script once every 10 minutes.
