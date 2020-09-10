@@ -1,5 +1,83 @@
 #!/bin/bash
 
+config=false
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+config_file=$DIR"/config.json"
+
+# This needs to be edited
+help () {
+	echo "
+	-d | --directory
+		directory where the wallpaper image files are located
+	-h | --help
+		this help menu
+	"
+}
+
+parse_args () {
+
+	# echo "There are $# arguments"
+	# echo "parse_args"
+    
+	# Add argument for changing the path of the config file
+	while :; do
+        case $1 in
+			-h|--help) 
+				help
+				exit 0
+			;;
+			-d|--directory)
+				shift
+				directory="$1"
+			;;
+			-i|--include)
+				shift
+				include="$1"
+			;;
+			-e|--exclude)
+				shift
+				include="$1"
+			;;
+			*) break
+		esac
+		shift
+	done
+
+}
+
+update_config () {
+
+  # If the directory argument is set (not empty) then change the variable in the config.json file
+  if [ ! -z ${directory+x} ]
+  then 
+    old_directory=$(jq '.directory' ${config_file}) 
+    jq --arg a "${directory}" '.directory = $a' ${config_file} > "tmp" && mv "tmp" ${config_file}
+    # echo -e "Directory variable has been set from $old_directory to \"$directory\""; 
+  fi
+
+  # If the images argument is set then change the variable in the config.json file
+  # if [ -z ${images+x} ]
+  # then 
+  # 	echo "Images is unchanged"; 
+  # else
+  # 	old_images=$(jq '.images' ${config_file}) 
+  # 	jq --arg a "${images}" '.images = $a' ${config_file} > "tmp" && mv "tmp" ${config_file}
+  #     echo -e "Images variable has been set from $old_images to \"$images\""; 
+  # fi
+
+}
+
+if test $# -gt 0
+then
+
+	parse_args $@
+  update_config
+
+#else
+#	echo "No arguments have been passed."
+fi
+
 # - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- 
 
 # This code allows the script to run with cron
@@ -15,9 +93,6 @@ done
 export DBUS_SESSION_BUS_ADDRESS=$(grep -z DBUS_SESSION_BUS_ADDRESS "$fl" | cut -d= -f2-)
 
 # - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- 
-
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-config_file=$DIR"/config.json"
 
 # Getting variables from configuration file
 directory=$(jq '.directory' ${config_file})
@@ -54,4 +129,3 @@ jq --arg a "${new_wallpaper}" '.current_wallpaper = $a' ${config_file} > "tmp" &
 #echo "Changing wallpaper to $new_wallpaper"
 
 gsettings set org.gnome.desktop.background picture-uri "${new_wallpaper}"
-gsettings set org.gnome.desktop.background picture-options 'wallpaper'
