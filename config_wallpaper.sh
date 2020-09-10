@@ -1,6 +1,8 @@
 #!/bin/bash
 
-config_file="/home/cip/Desktop/AutomaticWallpaperChanger/config.json"
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+config_file=$DIR"/config.json"
 
 # This needs to be edited
 help () {

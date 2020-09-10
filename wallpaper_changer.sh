@@ -16,7 +16,8 @@ export DBUS_SESSION_BUS_ADDRESS=$(grep -z DBUS_SESSION_BUS_ADDRESS "$fl" | cut -
 
 # - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- - -- 
 
-config_file="/home/cip/Desktop/AutomaticWallpaperChanger/config.json"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+config_file=$DIR"/config.json"
 
 # Getting variables from configuration file
 directory=$(jq '.directory' ${config_file})
@@ -28,7 +29,6 @@ old_wallpaper=${old_wallpaper//\"}
 # use nullglob in case there are no matching files
 shopt -s nullglob
 
-# create an array with all the filer/dir inside ~/myDir
 arr=(${directory}/*)
 size=${#arr[@]}
 
@@ -54,3 +54,4 @@ jq --arg a "${new_wallpaper}" '.current_wallpaper = $a' ${config_file} > "tmp" &
 #echo "Changing wallpaper to $new_wallpaper"
 
 gsettings set org.gnome.desktop.background picture-uri "${new_wallpaper}"
+gsettings set org.gnome.desktop.background picture-options 'wallpaper'
