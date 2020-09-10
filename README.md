@@ -1,5 +1,5 @@
 # Linux automatic wallpaper changer
-This simple program is being developed with the idea of making a daemon that could chage the wallpaper.
+This simple program is being developed with the idea of making a daemon that could chage the wallpaper automatically.
 
 Note that it's still a work in progress.
 
@@ -7,10 +7,11 @@ Note that it's still a work in progress.
 
 ### Configuration
 
-The repository is composed by three files:
+The main file in this repo is `wallpaper_changer.sh`
+
+The repository is composed by two files:
 1. `config.json`: this file contains the configuration for the tool (directory of the wallpaper images, current wallpaper, etc.);
-2. `config_wallpaper.sh`: this script edits the configuration file;
-3. `wallpaper_changer.sh `: this script actually changes the wallpaper on the computer.
+2. `wallpaper_changer.sh`: this script actually changes the wallpaper on the computer.
 
 ### `crontab`
 
