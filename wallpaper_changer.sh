@@ -2,6 +2,7 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 config_file=$DIR"/config.json"
+tmp_config_file=$DIR"/tmp_config"
 
 help () {
 	echo "
@@ -41,7 +42,7 @@ update_config () {
   if [ ! -z ${directory+x} ]
   then 
     old_directory=$(jq '.directory' ${config_file}) 
-    jq --arg a "${directory}" '.directory = $a' ${config_file} > "tmp" && mv "tmp" ${config_file}
+    jq --arg a "${directory}" '.directory = $a' ${config_file} > ${tmp_config_file} && mv ${tmp_config_file} ${config_file}
     # echo -e "Directory variable has been set from $old_directory to \"$directory\""; 
   fi
 
@@ -89,7 +90,7 @@ update_wallpaper () {
       done
   fi
 
-  jq --arg a "${new_wallpaper}" '.current_wallpaper = $a' ${config_file} > "tmp" && mv "tmp" ${config_file}
+  jq --arg a "${new_wallpaper}" '.current_wallpaper = $a' ${config_file} > ${tmp_config_file} && mv ${tmp_config_file} ${config_file}
 
   # echo "Changing wallpaper to $new_wallpaper"
 
