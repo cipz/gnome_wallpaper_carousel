@@ -67,15 +67,42 @@ update_wallpaper () {
   # Getting variables from configuration file
   directory=$(jq '.directory' ${config_file})
   directory=${directory//\"}
+  # echo $directory
+
+  # Creating a directory to put already used wallpapers in
+  # This means that the wallpapers will be used once each
+  if [ ! -d "${directory}/old" ] 
+  then
+      mkdir -p "${directory}/old"
+      # echo "Creating directory for used wallpapers"
+  fi
 
   old_wallpaper=$(jq '.current_wallpaper' ${config_file})
   old_wallpaper=${old_wallpaper//\"}
 
+  echo $old_wallpaper
+  mv "$old_wallpaper" "${directory}/old"
+
   # Use nullglob in case there are no matching files
   shopt -s nullglob
 
-  arr=(${directory}/*)
+  arr=(${directory}/*.{png,jpg,jpeg,PNG,JPG,JPEG})
   size=${#arr[@]}
+
+  # If there are no files in the wallpaper directory then all of the wallpapers must 
+  # be in the old directory, let's move them and declare the array again
+  if (( size == 0 ))
+  then
+    mv ${directory}/old/*.{png,jpg,jpeg,PNG,JPG,JPEG} ${directory}
+    arr=(${directory}/*.{png,jpg,jpeg,PNG,JPG,JPEG})
+    size=${#arr[@]}
+  fi
+
+  # Testing, don't mind it
+  # for img in "${arr[@]}"
+  # do
+  #   echo "$img"
+  # done
 
   # echo $size
   index=$(($RANDOM % $size))
@@ -83,7 +110,7 @@ update_wallpaper () {
 
   if (( size > 1 ))
   then
-      while [ $new_wallpaper == $old_wallpaper ]
+      while $new_wallpaper == $old_wallpaper
       do
           index=$(($RANDOM % $size))
           new_wallpaper=${arr[$index]}
