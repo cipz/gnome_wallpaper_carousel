@@ -80,7 +80,7 @@ update_wallpaper () {
   old_wallpaper=$(jq '.current_wallpaper' ${config_file})
   old_wallpaper=${old_wallpaper//\"}
 
-  echo $old_wallpaper
+  # echo $old_wallpaper
   mv "$old_wallpaper" "${directory}/old"
 
   # Use nullglob in case there are no matching files
@@ -108,14 +108,15 @@ update_wallpaper () {
   index=$(($RANDOM % $size))
   new_wallpaper=${arr[$index]}
 
-  if (( size > 1 ))
-  then
-      while $new_wallpaper == $old_wallpaper
-      do
-          index=$(($RANDOM % $size))
-          new_wallpaper=${arr[$index]}
-      done
-  fi
+  # Not needed anymore since used wallpapers are moved in the old folder
+  # if (( size > 1 ))
+  # then
+  #     while $new_wallpaper == $old_wallpaper
+  #     do
+  #         index=$(($RANDOM % $size))
+  #         new_wallpaper=${arr[$index]}
+  #     done
+  # fi
 
   jq --arg a "${new_wallpaper}" '.current_wallpaper = $a' ${config_file} > ${tmp_config_file} && mv ${tmp_config_file} ${config_file}
 
