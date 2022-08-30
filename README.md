@@ -5,8 +5,8 @@ This simple program is being developed with the idea of making a daemon that cou
 
 ### Configuration
 
-The main file in this repo is `wallpaper_changer.sh`. With this you can change the directory of the wallpapers with the argument `-d /path/to/wallpapers/`.
-The `config.json` file only contains the directory of the wallpapers and the name of the last wallpaper.
+The main file in this repo is `wallpaper_changer.sh`.
+The `config.json` file only contains the directory of the wallpapers.
 
 ### `crontab`
 
@@ -23,6 +23,10 @@ For more detailed information about crontab timing go check out [this (amazing a
 
 Clone the repo in the `bin` folder or in the folders you keep for custom scripts so that you don't have it laying around.
 
+It is important that all files do not contain any spaces.
+
 ### `gsettings`
 
 In [this stackoverflow answer](https://askubuntu.com/questions/140305/cron-not-able-to-succesfully-change-background) it's explained why `gsettings` does not play well with `cron` and `crontab`.
+
+The latest iteration of this script keeps in consideration the `picture-uri-dark` option in `gsettings` in Ubuntu 22.04.
