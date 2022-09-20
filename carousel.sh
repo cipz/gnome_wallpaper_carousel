@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Terminate any other instances of this process running
+kill $(ps aux | grep 'gnome_wallpaper_carousel/carousel.sh' | awk '{print $2}') >> /dev/null
+
 # This code allows the script to run with cron
 # gsettings needs to know the process and the display
 user=$(whoami)
